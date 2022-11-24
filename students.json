@@ -1,0 +1,100 @@
+{
+  "students":
+          [
+            {
+              "student":
+              {
+                "full_name": "Иванов Иван Иванович",
+                "educational_institution" : "колледж вятгу",
+                "id": "1",
+                "grade":
+                [
+                  {
+                    "subject": "математика",
+                    "content": "3"
+                  } ,
+                  {
+                    "subject": "русский",
+                    "content": "4"
+                  }
+                ]
+              }
+            },
+            {
+              "student":
+              {
+                "full_name": "Федоров Мирон Игнатьевич",
+                "educational_institution" : "колледж вятгу",
+                "id": "2",
+                "grade":
+                [
+                  {
+                    "subject": "математика",
+                    "content": "4"
+                  } ,
+                  {
+                    "subject": "русский",
+                    "content": "5"
+                  }
+                ]
+              }
+            },
+            {
+              "student":
+              {
+                "full_name": "Метерс Маршал Третий",
+                "educational_institution" : "колледж вятгу",
+                "id": "3",
+                "grade":
+                [
+                  {
+                    "subject": "математика",
+                    "content": "5"
+                  } ,
+                  {
+                    "subject": "русский",
+                    "content": "4"
+                  }
+                ]
+              }
+            },
+            {
+              "student":
+              {
+                "full_name": "Виноградов Станислав Дмитриевич",
+                "educational_institution" : "университет вятгу",
+                "id": "1",
+                "grade":
+                [
+                  {
+                    "subject": "математика",
+                    "content": "1"
+                  } ,
+                  {
+                    "subject": "русский",
+                    "content": "1"
+                  }
+                ]
+              }
+            },
+            {
+              "student":
+              {
+                "full_name": "Бабинцев Иван Андреевич",
+                "educational_institution" : "университет вятгу",
+                "id": "2",
+                "grade":
+                [
+                  {
+                    "subject": "математика",
+                    "content": "5"
+                  } ,
+                  {
+                    "subject": "русский",
+                    "content": "6"
+                  }
+                ]
+              }
+            }
+          ]
+}

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<educational_establishments>
+
+    <educational_institution title = "колледж вятгу">
+        <students>
+
+            <student id = "1">
+                <full_name>Иванов Иван Иванович</full_name>
+                <grades>
+                    <grade subject="математика"> 3</grade>
+                    <grade subject="русский"> 4</grade>
+                </grades>
+            </student>
+
+            <student id = "2"><full_name>Федоров Мирон Игнатьевич</full_name><grades><grade subject="математика"> 4</grade><grade subject="русский"> 5</grade></grades></student><student id = "3"><full_name>Метерс Маршал Третий</full_name>
+            <grades><grade subject="математика"> 5</grade>
+                <grade subject="русский"> 4</grade>
+            </grades>
+        </student>
+        </students></educational_institution>
+    <educational_institution title = "университет вятгу"><students>
+        <student id = "1"><full_name>Виноградов Станислав Дмитриевич</full_name><grades>
+                    <grade subject="математика"> 1</grade>
+                    <grade subject="русский"> 1</grade>
+                </grades>
+            </student>
+
+            <student id = "2">
+                <full_name>Бабинцев Иван Андреевич</full_name>
+                <grades>
+                    <grade subject="математика"> 5</grade>
+                    <grade subject="русский"> 6</grade>
+                </grades>
+            </student>
+
+        </students>
+    </educational_institution>
+
+</educational_establishments>

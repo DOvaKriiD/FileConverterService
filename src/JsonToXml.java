@@ -1,3 +1,5 @@
+import org.json.JSONObject;
+import org.json.XML;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -8,8 +10,13 @@ import org.json.JSONException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -49,7 +56,8 @@ public class JsonToXml {
                         Node gradeNode = gradeList.item(grd);
                         if (gradeNode.getNodeType() == Node.ELEMENT_NODE){
                             Element gradeElem = (Element) gradeNode;
-                            tempStudent.addGrade(gradeElem.getElementsByTagName("subject").item(0).getTextContent(),gradeElem.getTextContent());
+                            tempStudent.addGrade(gradeElem.getElementsByTagName("subject").item(0).getTextContent(),
+                                    gradeElem.getTextContent().substring(gradeElem.getElementsByTagName("subject").item(0).getTextContent().length()));
                         }
                     }
 
@@ -73,9 +81,7 @@ public class JsonToXml {
         List<List<Integer>> nodes = new ArrayList<>();
         List<String> institutions = new ArrayList<>();
 
-//        nodes.add(new ArrayList<>());
-//        nodes.get(0).add(0);
-//        institutions.add(students.get(0).educational_institution);
+
         boolean flag;
         for(int i = 0; i<students.size();i++){
             flag = false;
@@ -93,22 +99,62 @@ public class JsonToXml {
             }
         }
 
+        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+
+        Document doc = docBuilder.newDocument();
+        Element rootElement = doc.createElement("educational_establishments");
+        doc.appendChild(rootElement);
+
+        for (int i=0; i < institutions.size();i++){
+            Element educational_institutionElem = doc.createElement("educational_institution");
+            rootElement.appendChild(educational_institutionElem);
+            educational_institutionElem.setAttribute("title", institutions.get(i));
+            Element studentsElem = doc.createElement("students");
+            educational_institutionElem.appendChild(studentsElem);
+
+            for(int j=0;j<nodes.get(i).size();j++){
+                Element  studentElem = doc.createElement("student");
+                studentElem.setAttribute("id", Integer.toString(j+1));
+                studentsElem.appendChild(studentElem);
+                Element nameElem = doc.createElement("full_name");
+                nameElem.setTextContent(students.get(j).full_name);
+                studentElem.appendChild(nameElem);
+                Element gradesElem = doc.createElement("grades");
+                studentElem.appendChild(gradesElem);
+                for(int l = 0;l<students.get(j).grade.size();l++){
+                    Element grade = doc.createElement("grade");
+                    grade.setAttribute("subject", students.get(j).subject.get(l));
+                    grade.setTextContent(students.get(j).grade.get(l));
+                    gradesElem.appendChild(grade);
+                }
+            }
+        }
+
+
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        DOMSource source = new DOMSource(doc);
+        StreamResult result = new StreamResult(new FileOutputStream(xmlPath));
+
+        transformer.transform(source, result);
+
     }
 
 
 
     private static String supportConvertToXML(String jsonString, String root) throws JSONException {
-        //JSONObject jsonObject = new JSONObject(jsonString);
+        JSONObject jsonObject = new JSONObject(jsonString);
 
-        String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<"+root+">" + jsonString + "</"+root+">";
+        String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<"+root+">" + XML.toString(jsonObject) + "</"+root+">";
 
         return xml;
     }
 
     public static void jsonToXml(String jsonPath, String xmlPath) throws ParserConfigurationException, IOException, TransformerException {
-        String TempPath = "D:\\Users\\class\\Desktop\\Stas 29-10-2022\\FileConverterService\\temp.xml";
+        String TempPath = "D:\\temp.xml";
 
-        String loc =jsonPath;// "E:\\IntelliJ IDEA Community Edition 2022.2.3\\stas\\Stas 29-10-2022\\FileConverterService\\students.json";
+        String loc = jsonPath;
 
         String result;
         try {
@@ -116,7 +162,7 @@ public class JsonToXml {
             result = new String(Files.readAllBytes(Paths.get(loc)));
             String xml = supportConvertToXML(result, "educational_establishments"); // This method converts json object to xml string
 
-            FileWriter file = new FileWriter(TempPath);//"E:\\IntelliJ IDEA Community Edition 2022.2.3\\stas\\Stas 29-10-2022\\FileConverterService\\aaaa.xml");
+            FileWriter file = new FileWriter(TempPath);
 
             file.write(xml);
             file.flush();
